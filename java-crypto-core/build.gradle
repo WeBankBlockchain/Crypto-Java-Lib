@@ -35,31 +35,14 @@ sourceSets {
         }
     }
 }
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from 'build/docs/javadoc'
-}
-
 artifacts {
     archives jar
-    archives sourcesJar
-    archives javadocJar
 }
 signing {
     required { gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
-    options.addStringOption('charSet', 'UTF-8')
-}
+
 jar {
     destinationDir file('dist')
     archiveName project.name + '.jar'
@@ -86,8 +69,6 @@ jar {
     }
 }
 
-
-/*
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -104,12 +85,12 @@ uploadArchives {
             pom.project {
                 name project.name
                 packaging 'jar'
-                description 'WeBank key mini toolkit'
-                url 'https://github.com/WeBankBlockchain/key-center'
+                description 'WeBank java crypto core'
+                url 'https://github.com/WeBankBlockchain/Crypto-Java-Lib'
 
 				scm {
-					url 'https://github.com/WeBankBlockchain/key-center.git'
-					connection 'https://github.com/WeBankBlockchain/key-center.git'
+					url 'https://github.com/WeBankBlockchain/Crypto-Java-Lib.git'
+					connection 'https://github.com/WeBankBlockchain/Crypto-Java-Lib.git'
 				}
 
 
@@ -130,8 +111,6 @@ uploadArchives {
         }
     }
 }
-
- */
 clean {
     delete 'dist'
     delete 'build'
