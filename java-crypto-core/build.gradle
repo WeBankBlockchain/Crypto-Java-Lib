@@ -14,7 +14,7 @@ repositories {
     mavenCentral()
 }
 group = 'com.webank'
-version = '1.0.0-004-SNAPSHOT'
+version = '1.0.0-005-SNAPSHOT'
 
 dependencies {
     compile('org.projectlombok:lombok:1.18.6')
@@ -68,7 +68,6 @@ jar {
     }
 }
 
-/*
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -111,7 +110,6 @@ uploadArchives {
         }
     }
 }
-*/
 
 
 clean {
