@@ -69,3 +69,11 @@ build_chain.sh
 hs_err_pid*
 
 ### repo ###
+
+## keys ###
+java-crypto-core/gradle.properties
+java-crypto-core/secring.gpg
+java-crypto-core/.gradle
+java-crypto-core/build
+java-crypto-core/dist
+

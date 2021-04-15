@@ -26,15 +26,49 @@ public class NativeInterface {
         }
     }
 
-    public static native CryptoResult secp256k1Sign(String priKeyHex, String message);
-    public static native CryptoResult secp256k1verify(String pubKeyHex, String message, String signature);
-    public static native CryptoResult secp256k1keyPair();
-    public static native CryptoResult sm2Sign(String priKeyHex, String message);
-    public static native CryptoResult sm2SignWithPub(String priKeyHex, String pubKeyHex,String message);
-    public static native CryptoResult sm2verify(String pubKeyHex, String message, String signature);
-    public static native CryptoResult sm2keyPair();
-    public static native CryptoResult keccak256(String messageHex);
-    public static native CryptoResult sm3(String messageHex);
+    public static native CryptoResult secp256k1EciesEncrypt(String pubKey, String plaintext);
+
+    public static native CryptoResult secp256k1EciesDecrypt(String priKey, String ciphertext);
+
+    public static native CryptoResult secp256k1GenKeyPair();
+
+    public static native CryptoResult secp256k1DerivePublicKey(String priKey);
+
+    public static native CryptoResult keccak256Hash(String message);
+
+    public static native CryptoResult secp256k1Sign(String priKey, String messageHash);
+
+    public static native CryptoResult secp256k1Verify(String pubKey, String message, String signature);
+
+    public static native CryptoResult secp256k1RecoverPublicKey(String message, String signature);
+
+    public static native CryptoResult sm3Hash(String message);
+
+    public static native CryptoResult sm2GenKeyPair();
+
+    public static native CryptoResult sm2DerivePublicKey(String priKey);
+
+    public static native CryptoResult sm2Sign(String priKey, String messageHash);
+
+    public static native CryptoResult sm2SignFast(String priKey, String pubKey, String messageHash);
+
+    public static native CryptoResult sm2Verify(String pubKey, String message, String signature);
+    
+    public static native CryptoResult sm2ComputeHashE(String pubKey, String sm2ComputeE);
+
+    public static native CryptoResult curve25519VrfProveUtf8(String privateKey, String utf8Message);
+
+    public static native CryptoResult curve25519VrfProveFastUtf8(String privateKey, String publicKey, String utf8Message);
+
+    public static native CryptoResult curve25519VrfVerifyUtf8(String publicKey, String utf8Message, String proof);
+
+    public static native CryptoResult curve25519VrfDerivePublicKey(String privateKey);
+
+    public static native CryptoResult curve25519VrfProofToHash(String proof);
+
+    public static native CryptoResult curve25519VrfIsValidPubKey(String publicKey);
+
+
 
     private static String resolveLibTail(String os){
         os = os.toLowerCase();
