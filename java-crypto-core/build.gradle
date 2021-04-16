@@ -68,7 +68,7 @@ jar {
     }
 }
 
-uploadArchives {
+/*uploadArchives {
     repositories {
         mavenDeployer {
             beforeDeployment { deployment -> signing.signPom(deployment) }
@@ -109,7 +109,7 @@ uploadArchives {
             }
         }
     }
-}
+}*/
 
 
 clean {
