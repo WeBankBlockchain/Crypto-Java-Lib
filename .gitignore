@@ -70,9 +70,13 @@ hs_err_pid*
 ### repo ###
 java-crypto-core/gradle.properties
 java-crypto-core/secring.gpg
+java-crypto-core/.gradle
+java-crypto-core/build
+java-crypto-core/dist
 hsm-crypto/.gradle
 hsm-crypto/gradle.properties
 hsm-crypto/secring.gpg
 hsm-crypto/gpg.gpg
 hsm-crypto/build
 hsm-crypto/dist
+
