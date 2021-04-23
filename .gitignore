@@ -15,7 +15,6 @@ dist/
 .classpath
 .project
 .settings
-bin/
 out/
 conf/
 
@@ -69,3 +68,11 @@ build_chain.sh
 hs_err_pid*
 
 ### repo ###
+java-crypto-core/gradle.properties
+java-crypto-core/secring.gpg
+hsm-crypto/.gradle
+hsm-crypto/gradle.properties
+hsm-crypto/secring.gpg
+hsm-crypto/gpg.gpg
+hsm-crypto/build
+hsm-crypto/dist
