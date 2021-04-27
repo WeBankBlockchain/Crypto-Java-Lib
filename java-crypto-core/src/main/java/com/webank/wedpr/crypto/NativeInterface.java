@@ -1,9 +1,24 @@
 package com.webank.wedpr.crypto;
 
+import cn.hutool.crypto.BCUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.SM2;
 import com.webank.wedpr.utils.EnvironmentUtils;
 import com.webank.wedpr.utils.NativeUtils;
+import com.webank.wedpr.utils.SM2Util;
+import org.bouncycastle.crypto.engines.SM2Engine;
+import org.bouncycastle.crypto.params.ECDomainParameters;
+import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
+import org.bouncycastle.crypto.params.ECPublicKeyParameters;
+import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
+import org.bouncycastle.math.ec.ECCurve;
+import org.bouncycastle.math.ec.ECPoint;
+import org.bouncycastle.util.encoders.Hex;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 /**
  * Native interface for signature
@@ -68,25 +83,48 @@ public class NativeInterface {
 
     public static native CryptoResult curve25519VrfIsValidPublicKey(String publicKey);
 
+    /**
+     * New features for BSN
+     */
+    public static native CryptoResult sm4(String key, String plainText);
 
+    /**
+     * SM2 encrypt
+     * @param pubKey Hex format of public key. Should be standard.
+     * @param plaintextHex Hex of message bytes. This is not UTF8-encoded string!
+     * @return @return CrytoResult check encryptedData as result.
+     * @throws Exception
+     */
+    public static CryptoResult sm2Encrypt(String pubKey, String plaintextHex) throws Exception{
+        ECPoint q = SM2Util.curve.decodePoint(Hex.decode(pubKey));
+        ECPublicKeyParameters params = new ECPublicKeyParameters(q, SM2Util.domain);
 
-    private static String resolveLibTail(String os){
-        os = os.toLowerCase();
-        String tail;
-        if(os.contains("windows")){
-            tail = ".dll";
-        }
-        else if(os.contains("linux")){
-            tail = ".so";
-        }
-        else if(os.contains("mac")){
-            tail = ".dylib";
-        }
-        else{
-            throw new RuntimeException("Unsupported os: "+os);
-        }
-        return tail;
+        SM2 sm2 = new SM2();
+        sm2.setPublicKeyParams(params);
+        byte[] cipher = sm2.encrypt(Hex.decode(plaintextHex), KeyType.PublicKey);
+        CryptoResult result = new CryptoResult();
+        result.setEncryptedData(Hex.toHexString(cipher));
+        return result;
     }
 
+    /**
+     *
+     * @param priKey Hex plain private key(64 bytes)
+     * @param ciphertext Cipher text
+     * @return CrytoResult check decryptedData as result, which is hex decoded string(Not utf-8).
+     */
+    public static CryptoResult sm2Decrypt(String priKey, String ciphertext){
+        BigInteger d = new BigInteger(1, Hex.decode(priKey));
+        ECPrivateKeyParameters params = new ECPrivateKeyParameters(d, SM2Util.domain);
+
+        SM2 sm2 = new SM2();
+        sm2.setPrivateKeyParams(params);
+        byte[] plainText = sm2.decrypt(Hex.decode(ciphertext), KeyType.PrivateKey);
+
+        CryptoResult result = new CryptoResult();
+        result.setDecryptedData(Hex.toHexString(plainText));
+        return result;
+
+    }
     private NativeInterface(){}
 }

@@ -22,6 +22,8 @@ dependencies {
 
     testCompile('org.projectlombok:lombok:1.18.6')
     testAnnotationProcessor('org.projectlombok:lombok:1.18.6')
+    compile 'org.bouncycastle:bcprov-jdk15to18:1.66'
+    compile 'cn.hutool:hutool-all:5.3.10'
 }
 sourceSets {
     main {
