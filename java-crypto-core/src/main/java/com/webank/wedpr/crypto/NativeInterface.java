@@ -84,9 +84,23 @@ public class NativeInterface {
     public static native CryptoResult curve25519VrfIsValidPublicKey(String publicKey);
 
     /**
-     * New features for BSN
+     *
+     * @param message Hex for of message
+     * @param key Hex format of key bytes, which is 16 bytes length
+     * @param iv Hex format of iv bytes,which is 16 bytes length. You can pass 00000000000000000000000000000000， but for security reasons
+     *      *          you should use a random-generated 16 bytes. You should keep it as secrets.
+     * @return
      */
-    public static native CryptoResult sm4(String key, String plainText);
+    public static native CryptoResult sm4Encrypt(String message, String key, String iv);
+
+    /**
+     *
+     * @param cipher Encrypted data
+     * @param key Hex format of key bytes, which is 16 bytes length
+     * @param iv Hex format of iv bytes,which is 16 bytes length. Iv is same with sm4Encrypt
+     * @return
+     */
+    public static native CryptoResult sm4Decrypt(String cipher, String key, String iv);
 
     /**
      * SM2 encrypt
