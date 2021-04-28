@@ -12,16 +12,16 @@ public class GMEncryptDemo {
     public static void main(String[] args) throws Exception {
         //SM2 demo
         {
-//            String text = "Hello World!";
-//
-//            CryptoResult keyPair = NativeInterface.sm2GenKeyPair();
-//            String message = Hex.toHexString(text.getBytes());
-//            String cipher = NativeInterface.sm2Encrypt(keyPair.getPublicKey(), message).encryptedData;
-//
-//            String plainText = NativeInterface.sm2Decrypt(keyPair.privateKey, cipher).decryptedData;
-//
-//            String recoveredText = new String(Hex.decode(plainText));
-//            System.out.println(text+"-->"+recoveredText);
+            String text = "Hello World";
+
+            CryptoResult keyPair = NativeInterface.sm2GenKeyPair();
+            String message = Hex.toHexString(text.getBytes());
+            String cipher = NativeInterface.sm2Encrypt(keyPair.getPublicKey(), message).encryptedData;
+            System.out.println(text+"-->"+cipher);
+            String plainText = NativeInterface.sm2Decrypt(keyPair.privateKey, cipher).decryptedData;
+
+            String recoveredText = new String(Hex.decode(plainText));
+            System.out.println(cipher+"-->"+recoveredText);
         }
         //SM4 demo
         {
@@ -30,19 +30,13 @@ public class GMEncryptDemo {
             byte[] iv = new byte[16];//Just for demo, in fact you should use
             String textHex = Hex.toHexString(text.getBytes());
             String keyHex = Hex.toHexString(key.getBytes());
-            String ivHex = Hex.toHexString(new byte[16]);
-
-            System.out.println(textHex);
-            System.out.println(keyHex);
-            System.out.println(ivHex);
+            String ivHex = Hex.toHexString(iv);
 
             CryptoResult encryptedResult = NativeInterface.sm4Encrypt(textHex, keyHex, ivHex);
-            System.out.println(encryptedResult.encryptedData);
-
+            System.out.println(text+"-->"+encryptedResult.encryptedData);
 
             CryptoResult decryptedResult = NativeInterface.sm4Decrypt(encryptedResult.encryptedData, keyHex, ivHex);
-            System.out.println(decryptedResult.decryptedData);
-            System.out.println("recovered:" + new String(Hex.decode(decryptedResult.decryptedData)));
+            System.out.println(encryptedResult.encryptedData+"-->"+new String(Hex.decode(decryptedResult.decryptedData)));
         }
     }
 }
