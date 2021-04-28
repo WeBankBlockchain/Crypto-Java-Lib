@@ -7,10 +7,10 @@ import com.webank.wedpr.crypto.CryptoResult;
 import com.webank.wedpr.crypto.NativeInterface;
 import org.bouncycastle.util.encoders.Hex;
 
-public class GMEncryptDemo {
+public class GMDemo {
 
     public static void main(String[] args) throws Exception {
-        //SM2 demo
+        //SM2 encryption demo
         {
             String text = "Hello World";
 
@@ -22,6 +22,26 @@ public class GMEncryptDemo {
 
             String recoveredText = new String(Hex.decode(plainText));
             System.out.println(cipher+"-->"+recoveredText);
+        }
+        //SM2 signature demo
+        {
+            String text = "Hello World";
+            String message = Hex.toHexString(text.getBytes());
+            CryptoResult keyPair = NativeInterface.sm2GenKeyPair();
+            System.out.println("privteKey = " + keyPair.privateKey);
+            System.out.println("publicKey = " + keyPair.publicKey);
+
+            CryptoResult Signature = NativeInterface.sm2Sign(keyPair.privateKey, message);
+            System.out.println("gm signature = " + Signature.signature.length());
+            CryptoResult resultTrue = NativeInterface.sm2Verify(keyPair.publicKey, message, Signature.signature);
+            System.out.println("result = " + resultTrue.booleanResult);
+        }
+        //SM3 demo
+        {
+            String text = "Hello World";
+            String message = Hex.toHexString(text.getBytes());
+            CryptoResult hash =  NativeInterface.sm3Hash(message);
+            System.out.println("sm3 hash = " + hash.hash);
         }
         //SM4 demo
         {
