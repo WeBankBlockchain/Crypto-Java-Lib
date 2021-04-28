@@ -14,7 +14,7 @@ repositories {
     mavenCentral()
 }
 group = 'com.webank'
-version = '1.0.0-005-SNAPSHOT'
+version = '1.0.0-006-SNAPSHOT'
 
 dependencies {
     compile('org.projectlombok:lombok:1.18.6')
