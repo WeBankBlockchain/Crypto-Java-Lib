@@ -77,7 +77,7 @@ jar{
     }
 }
 
-signing {
+/*signing {
     required { gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
@@ -123,7 +123,7 @@ uploadArchives {
             }
         }
     }
-}
+}*/
 
 googleJavaFormat {
     options style: 'AOSP'

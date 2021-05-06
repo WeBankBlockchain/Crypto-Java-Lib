@@ -45,4 +45,8 @@ public class SDF {
         return new SDFCryptoResult(
                 SDFJNI.ExportInternalPublicKey(keyIndex, algorithm.swigValue()), true);
     }
+
+    public static SDFCryptoResult HashWithZ(String key, AlgorithmType algorithm, String message) {
+        return new SDFCryptoResult(SDFJNI.HashWithZ(key, algorithm.swigValue(), message), true);
+    }
 }

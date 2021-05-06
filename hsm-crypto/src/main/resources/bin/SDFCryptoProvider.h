@@ -26,10 +26,7 @@
 #include <cstring>
 #include <vector>
 using namespace std;
-namespace dev
-{
-class KeyPair;
-namespace crypto
+namespace hsm
 {
 enum AlgorithmType : uint32_t
 {
@@ -37,57 +34,8 @@ enum AlgorithmType : uint32_t
     SM3 = 0x00000001,      // SGD_SM3
     SM4_CBC = 0x00002002,  // SGD_SM4_CBC
 };
-class Key
+namespace sdf
 {
-public:
-    unsigned char * PublicKey() const { return m_publicKey; }
-    unsigned char * PrivateKey() const { return m_privateKey; }
-    int PublicKeyLen() const { return m_publicKeyLen; }
-    int PrivateKeyLen() const { return m_privateKeyLen; }
-    unsigned int Identifier() const { return m_keyIndex; };
-    char * Password() const { return m_keyPassword; };
-    bool IsInternalKey() const { return m_isInternalKey; }
-    Key(void){};
-    Key(unsigned char* privateKey,int privateKeyLen, unsigned char* publicKey, int publicKeyLen)
-    {
-        m_privateKey = privateKey;
-        m_privateKeyLen = privateKeyLen;
-        m_publicKey = publicKey;
-        m_publicKeyLen = publicKeyLen;
-    };
-    Key(const unsigned int keyIndex, char *& password)
-    {
-        m_keyIndex = keyIndex;
-        m_keyPassword = password;
-        m_isInternalKey = true;
-    };
-    Key(const unsigned int keyIndex)
-    {
-        m_keyIndex = keyIndex;
-        m_isInternalKey = true;
-    };
-    void setPrivateKey(unsigned char* privateKey, unsigned int len)
-    {
-        m_privateKey = (unsigned char*)malloc(len * sizeof(char));
-        memcpy(m_privateKey, privateKey, len);
-        m_privateKeyLen = len;
-    };
-    void setPublicKey(unsigned char* publicKey, unsigned int len)
-    {
-        m_publicKey = (unsigned char*)malloc(len * sizeof(char));
-        memcpy(m_publicKey, publicKey, len);
-        m_publicKeyLen = len;
-    };
-
-private:
-    unsigned int m_keyIndex;
-    char * m_keyPassword;
-    unsigned char * m_privateKey;
-    unsigned char * m_publicKey;
-    int m_privateKeyLen;
-    int m_publicKeyLen;
-    bool m_isInternalKey = false;
-};
 struct SDFCryptoResult{
     char * signature;
     char * publicKey;
@@ -104,5 +52,6 @@ SDFCryptoResult Verify(char * publicKey, AlgorithmType algorithm, char const* di
 SDFCryptoResult VerifyWithInternalKey(unsigned int keyIndex, AlgorithmType algorithm, char const* digest,char const* signature);
 SDFCryptoResult Hash(char * key, AlgorithmType algorithm, char const* message);
 SDFCryptoResult ExportInternalPublicKey(unsigned int keyIndex, AlgorithmType algorithm);
+SDFCryptoResult HashWithZ(char* key, AlgorithmType algorithm, char const* message);
 }  // namespace crypto
 }  // namespace dev

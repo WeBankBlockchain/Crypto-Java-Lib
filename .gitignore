@@ -79,4 +79,4 @@ hsm-crypto/secring.gpg
 hsm-crypto/gpg.gpg
 hsm-crypto/build
 hsm-crypto/dist
-
+hsm-crypto/update.sh

@@ -13,43 +13,13 @@ import java.io.IOException;
 
 public class SDFJNI {
     private static final String LIB_RELAY_FFI_NAME = "bin/libsdf-crypto";
-    private static final String LIB_FFI_NAME = "bin/sdf-crypto";
+    private static final String LIB_FFI_NAME = "bin/libsdf-crypto-jni";
 
     public static final native int SM2_get();
 
     public static final native int SM3_get();
 
     public static final native int SM4_CBC_get();
-
-    public static final native long Key_PublicKey(long jarg1, Key jarg1_);
-
-    public static final native long Key_PrivateKey(long jarg1, Key jarg1_);
-
-    public static final native int Key_PublicKeyLen(long jarg1, Key jarg1_);
-
-    public static final native int Key_PrivateKeyLen(long jarg1, Key jarg1_);
-
-    public static final native long Key_Identifier(long jarg1, Key jarg1_);
-
-    public static final native String Key_Password(long jarg1, Key jarg1_);
-
-    public static final native boolean Key_IsInternalKey(long jarg1, Key jarg1_);
-
-    public static final native long new_Key__SWIG_0();
-
-    public static final native long new_Key__SWIG_1(long jarg1, int jarg2, long jarg3, int jarg4);
-
-    public static final native long new_Key__SWIG_2(long jarg1, String jarg2);
-
-    public static final native long new_Key__SWIG_3(long jarg1);
-
-    public static final native void Key_setPrivateKey(
-            long jarg1, Key jarg1_, long jarg2, long jarg3);
-
-    public static final native void Key_setPublicKey(
-            long jarg1, Key jarg1_, long jarg2, long jarg3);
-
-    public static final native void delete_Key(long jarg1);
 
     public static final native void SDFCryptoResult_signature_set(
             long jarg1, SDFCryptoResult jarg1_, String jarg2);
@@ -105,6 +75,8 @@ public class SDFJNI {
     public static final native long Hash(String jarg1, int jarg2, String jarg3);
 
     public static final native long ExportInternalPublicKey(long jarg1, int jarg2);
+
+    public static final native long HashWithZ(String jarg1, int jarg2, String jarg3);
 
     static {
         try {
