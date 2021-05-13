@@ -1,6 +1,6 @@
 package com.webank.fisco.bcos.wedpr.sdk;
 
-public class SdkResult{
+public class SdkResult {
     public String publicKey;
     public String privateKey;
     public String hash;
