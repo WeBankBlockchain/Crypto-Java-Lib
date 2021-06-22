@@ -19,39 +19,135 @@
  * @date 2021-02-01
  */
 #pragma once
+#include "../Common.h"
+#include "../CryptoProvider.h"
 #include <stdio.h>
 #include <cstdlib>
+#include <cstring>
 #include <list>
 #include <string>
-#include <cstring>
 #include <vector>
+#include<condition_variable>
 using namespace std;
+using namespace hsm;
 namespace hsm
 {
-enum AlgorithmType : uint32_t
-{
-    SM2 = 0x00020100,      // SGD_SM2_1
-    SM3 = 0x00000001,      // SGD_SM3
-    SM4_CBC = 0x00002002,  // SGD_SM4_CBC
-};
 namespace sdf
 {
-struct SDFCryptoResult{
-    char * signature;
-    char * publicKey;
-    char * privateKey;
+class SessionPool
+{
+public:
+    SessionPool(int size, void* deviceHandle);
+    virtual ~SessionPool();
+    void* GetSession();
+    void ReturnSession(void* session);
+
+private:
+    void* m_deviceHandle;
+    size_t m_size;
+    std::list<void*> m_pool;
+    std::mutex mtx;
+    std::condition_variable cv;
+};
+
+/**
+ *  SDFCryptoProvider suply SDF function calls
+ *  Singleton
+ */
+class SDFCryptoProvider : public CryptoProvider
+{
+private:
+    void* m_deviceHandle;
+    SessionPool* m_sessionPool;
+    SDFCryptoProvider();
+    SDFCryptoProvider(int sessionPoolSize);
+    ~SDFCryptoProvider();
+    SDFCryptoProvider(const SDFCryptoProvider&);
+    SDFCryptoProvider& operator=(const SDFCryptoProvider&);
+
+public:
+    /**
+     * Return the instance
+     */
+    static SDFCryptoProvider& GetInstance();
+    static SDFCryptoProvider& GetInstance(int sessionPoolSize);
+
+    /**
+     * Generate key
+     * Return error code
+     */
+    unsigned int KeyGen(AlgorithmType algorithm, Key* key) override;
+
+    /**
+     * Sign
+     */
+    unsigned int Sign(Key const& key, AlgorithmType algorithm, unsigned char const* digest,
+        unsigned int digestLen, unsigned char* signature, unsigned int* signatureLen) override;
+
+    /**
+     * Verify signature
+     */
+    unsigned int Verify(Key const& key, AlgorithmType algorithm, unsigned char const* digest,
+        unsigned int digestLen, unsigned char const* signature, unsigned int signatureLen,
+        bool* result) override;
+
+    /**
+     * Make hash
+     */
+    unsigned int Hash(Key* key, AlgorithmType algorithm, unsigned char const* message,
+        unsigned int messageLen, unsigned char* digest, unsigned int* digestLen) override;
+
+    /**
+     * Encrypt
+     */
+    unsigned int Encrypt(Key const& key, AlgorithmType algorithm, unsigned char* iv,
+        unsigned char const* plantext, unsigned int plantextLen, unsigned char* cyphertext,
+        unsigned int* cyphertextLen) override;
+
+    /**
+     * Decrypt
+     */
+    unsigned int Decrypt(Key const& key, AlgorithmType algorithm, unsigned char* iv,
+        unsigned char const* cyphertext, unsigned int cyphertextLen, unsigned char* plantext,
+        unsigned int* plantextLen) override;
+
+    /**
+     *  Get public key of an internal key
+     */
+    unsigned int ExportInternalPublicKey(Key& key, AlgorithmType algorithm) override;
+
+    char* GetErrorMessage(unsigned int code) override;
+    static const unsigned int SM2_BITS;
+    static const std::string SM2_USER_ID;
+};
+
+struct SDFCryptoResult
+{
+    char* signature;
+    char* publicKey;
+    char* privateKey;
     bool result;
-    char * hash;
-    char * sdfErrorMessage;
+    char* hash;
+    char* sdfErrorMessage;
 };
 
 SDFCryptoResult KeyGen(AlgorithmType algorithm);
-SDFCryptoResult Sign(char * privateKey, AlgorithmType algorithm, char const* digest);
-SDFCryptoResult SignWithInternalKey(unsigned int keyIndex, char * password, AlgorithmType algorithm, char const* digest);
-SDFCryptoResult Verify(char * publicKey, AlgorithmType algorithm, char const* digest, char const* signature);
-SDFCryptoResult VerifyWithInternalKey(unsigned int keyIndex, AlgorithmType algorithm, char const* digest,char const* signature);
-SDFCryptoResult Hash(char * key, AlgorithmType algorithm, char const* message);
+SDFCryptoResult Sign(char* privateKey, AlgorithmType algorithm, char const* digest);
+SDFCryptoResult SignWithInternalKey(
+    unsigned int keyIndex, char* password, AlgorithmType algorithm, char const* digest);
+SDFCryptoResult Verify(
+    char* publicKey, AlgorithmType algorithm, char const* digest, char const* signature);
+SDFCryptoResult VerifyWithInternalKey(
+    unsigned int keyIndex, AlgorithmType algorithm, char const* digest, char const* signature);
+SDFCryptoResult Hash(char* key, AlgorithmType algorithm, char const* message);
 SDFCryptoResult ExportInternalPublicKey(unsigned int keyIndex, AlgorithmType algorithm);
-SDFCryptoResult HashWithZ(char* key, AlgorithmType algorithm, char const* message);
-}  // namespace crypto
-}  // namespace dev
+SDFCryptoResult makeResult(char* signature, char* publicKey, char* privateKey, bool result,
+    char* hash, unsigned int code, char*);
+char* sdfToHex(const std::vector<byte>& data);
+std::vector<byte> sdfFromHex(char* hexString);
+int fromHexChar(char _i);
+unsigned int getHexByteLen(char* hexString);
+int PrintData(char*, unsigned char*, unsigned int, unsigned int);
+
+}  // namespace sdf
+}  // namespace hsm
