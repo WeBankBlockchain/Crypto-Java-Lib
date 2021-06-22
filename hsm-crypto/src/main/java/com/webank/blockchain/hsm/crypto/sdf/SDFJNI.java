@@ -8,6 +8,10 @@
 
 package com.webank.blockchain.hsm.crypto.sdf;
 
+import com.webank.blockchain.hsm.crypto.utils.NativeUtils;
+
+import java.io.IOException;
+
 public class SDFJNI {
   private static final String LIB_RELAY_FFI_NAME = "bin/libsdf-crypto";
   private static final String LIB_FFI_NAME = "bin/libsdf-crypto-jni";
@@ -46,5 +50,4 @@ public class SDFJNI {
       throw new RuntimeException("Failed to load library ", e);
     }
   }
-}
 }
