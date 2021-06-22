@@ -21,6 +21,8 @@ public class NativeUtils {
             String osArch = System.getProperty("os.arch").toLowerCase();
             if ("aarch64".equals(osArch)) {
                 return "_arm.so";
+            }else{
+                return "_x86.so";
             }
         }
         throw new IllegalArgumentException("does not support os :" + osName);
