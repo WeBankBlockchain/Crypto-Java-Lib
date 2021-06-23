@@ -19,15 +19,20 @@
  * @date 2021-02-01
  */
 #pragma once
+//#include "../Common.h"
+//#include "../CryptoProvider.h"
 #include <stdio.h>
 #include <cstdlib>
+#include <cstring>
 #include <list>
 #include <string>
-#include <cstring>
 #include <vector>
-using namespace std;
+#include<condition_variable>
+//using namespace std;
+//using namespace hsm;
 namespace hsm
 {
+
 enum AlgorithmType : uint32_t
 {
     SM2 = 0x00020100,      // SGD_SM2_1
@@ -36,22 +41,30 @@ enum AlgorithmType : uint32_t
 };
 namespace sdf
 {
-struct SDFCryptoResult{
-    char * signature;
-    char * publicKey;
-    char * privateKey;
+
+struct SDFCryptoResult
+{
+    char* signature;
+    char* publicKey;
+    char* privateKey;
     bool result;
-    char * hash;
-    char * sdfErrorMessage;
+    char* hash;
+    char* sdfErrorMessage;
 };
 
 SDFCryptoResult KeyGen(AlgorithmType algorithm);
-SDFCryptoResult Sign(char * privateKey, AlgorithmType algorithm, char const* digest);
-SDFCryptoResult SignWithInternalKey(unsigned int keyIndex, char * password, AlgorithmType algorithm, char const* digest);
-SDFCryptoResult Verify(char * publicKey, AlgorithmType algorithm, char const* digest, char const* signature);
-SDFCryptoResult VerifyWithInternalKey(unsigned int keyIndex, AlgorithmType algorithm, char const* digest,char const* signature);
-SDFCryptoResult Hash(char * key, AlgorithmType algorithm, char const* message);
+SDFCryptoResult Sign(char* privateKey, AlgorithmType algorithm, char const* digest);
+SDFCryptoResult SignWithInternalKey(
+    unsigned int keyIndex, char* password, AlgorithmType algorithm, char const* digest);
+SDFCryptoResult Verify(
+    char* publicKey, AlgorithmType algorithm, char const* digest, char const* signature);
+SDFCryptoResult VerifyWithInternalKey(
+    unsigned int keyIndex, AlgorithmType algorithm, char const* digest, char const* signature);
+SDFCryptoResult Hash(char* key, AlgorithmType algorithm, char const* message);
 SDFCryptoResult ExportInternalPublicKey(unsigned int keyIndex, AlgorithmType algorithm);
-SDFCryptoResult HashWithZ(char* key, AlgorithmType algorithm, char const* message);
-}  // namespace crypto
-}  // namespace dev
+SDFCryptoResult makeResult(char* signature, char* publicKey, char* privateKey, bool result,
+    char* hash, unsigned int code, char*);
+
+
+}  // namespace sdf
+}  // namespace hsm

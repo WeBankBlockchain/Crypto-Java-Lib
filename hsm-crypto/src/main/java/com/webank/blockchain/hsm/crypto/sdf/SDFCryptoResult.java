@@ -9,82 +9,83 @@
 package com.webank.blockchain.hsm.crypto.sdf;
 
 public class SDFCryptoResult {
-    private transient long swigCPtr;
-    protected transient boolean swigCMemOwn;
+  private transient long swigCPtr;
+  protected transient boolean swigCMemOwn;
 
-    protected SDFCryptoResult(long cPtr, boolean cMemoryOwn) {
-        swigCMemOwn = cMemoryOwn;
-        swigCPtr = cPtr;
-    }
+  protected SDFCryptoResult(long cPtr, boolean cMemoryOwn) {
+    swigCMemOwn = cMemoryOwn;
+    swigCPtr = cPtr;
+  }
 
-    protected static long getCPtr(SDFCryptoResult obj) {
-        return (obj == null) ? 0 : obj.swigCPtr;
-    }
+  protected static long getCPtr(SDFCryptoResult obj) {
+    return (obj == null) ? 0 : obj.swigCPtr;
+  }
 
-    @SuppressWarnings("deprecation")
-    protected void finalize() {
-        delete();
-    }
+  @SuppressWarnings("deprecation")
+  protected void finalize() {
+    delete();
+  }
 
-    public synchronized void delete() {
-        if (swigCPtr != 0) {
-            if (swigCMemOwn) {
-                swigCMemOwn = false;
-                SDFJNI.delete_SDFCryptoResult(swigCPtr);
-            }
-            swigCPtr = 0;
-        }
+  public synchronized void delete() {
+    if (swigCPtr != 0) {
+      if (swigCMemOwn) {
+        swigCMemOwn = false;
+        SDFJNI.delete_SDFCryptoResult(swigCPtr);
+      }
+      swigCPtr = 0;
     }
+  }
 
-    public void setSignature(String value) {
-        SDFJNI.SDFCryptoResult_signature_set(swigCPtr, this, value);
-    }
+  public void setSignature(String value) {
+    SDFJNI.SDFCryptoResult_signature_set(swigCPtr, this, value);
+  }
 
-    public String getSignature() {
-        return SDFJNI.SDFCryptoResult_signature_get(swigCPtr, this);
-    }
+  public String getSignature() {
+    return SDFJNI.SDFCryptoResult_signature_get(swigCPtr, this);
+  }
 
-    public void setPublicKey(String value) {
-        SDFJNI.SDFCryptoResult_publicKey_set(swigCPtr, this, value);
-    }
+  public void setPublicKey(String value) {
+    SDFJNI.SDFCryptoResult_publicKey_set(swigCPtr, this, value);
+  }
 
-    public String getPublicKey() {
-        return SDFJNI.SDFCryptoResult_publicKey_get(swigCPtr, this);
-    }
+  public String getPublicKey() {
+    return SDFJNI.SDFCryptoResult_publicKey_get(swigCPtr, this);
+  }
 
-    public void setPrivateKey(String value) {
-        SDFJNI.SDFCryptoResult_privateKey_set(swigCPtr, this, value);
-    }
+  public void setPrivateKey(String value) {
+    SDFJNI.SDFCryptoResult_privateKey_set(swigCPtr, this, value);
+  }
 
-    public String getPrivateKey() {
-        return SDFJNI.SDFCryptoResult_privateKey_get(swigCPtr, this);
-    }
+  public String getPrivateKey() {
+    return SDFJNI.SDFCryptoResult_privateKey_get(swigCPtr, this);
+  }
 
-    public void setResult(boolean value) {
-        SDFJNI.SDFCryptoResult_result_set(swigCPtr, this, value);
-    }
+  public void setResult(boolean value) {
+    SDFJNI.SDFCryptoResult_result_set(swigCPtr, this, value);
+  }
 
-    public boolean getResult() {
-        return SDFJNI.SDFCryptoResult_result_get(swigCPtr, this);
-    }
+  public boolean getResult() {
+    return SDFJNI.SDFCryptoResult_result_get(swigCPtr, this);
+  }
 
-    public void setHash(String value) {
-        SDFJNI.SDFCryptoResult_hash_set(swigCPtr, this, value);
-    }
+  public void setHash(String value) {
+    SDFJNI.SDFCryptoResult_hash_set(swigCPtr, this, value);
+  }
 
-    public String getHash() {
-        return SDFJNI.SDFCryptoResult_hash_get(swigCPtr, this);
-    }
+  public String getHash() {
+    return SDFJNI.SDFCryptoResult_hash_get(swigCPtr, this);
+  }
 
-    public void setSdfErrorMessage(String value) {
-        SDFJNI.SDFCryptoResult_sdfErrorMessage_set(swigCPtr, this, value);
-    }
+  public void setSdfErrorMessage(String value) {
+    SDFJNI.SDFCryptoResult_sdfErrorMessage_set(swigCPtr, this, value);
+  }
 
-    public String getSdfErrorMessage() {
-        return SDFJNI.SDFCryptoResult_sdfErrorMessage_get(swigCPtr, this);
-    }
+  public String getSdfErrorMessage() {
+    return SDFJNI.SDFCryptoResult_sdfErrorMessage_get(swigCPtr, this);
+  }
 
-    public SDFCryptoResult() {
-        this(SDFJNI.new_SDFCryptoResult(), true);
-    }
+  public SDFCryptoResult() {
+    this(SDFJNI.new_SDFCryptoResult(), true);
+  }
+
 }
