@@ -26,6 +26,15 @@ dependencies {
     compile group: 'junit', name: 'junit', version: '4.12'
 }
 
+ext {
+    if (!project.hasProperty("ossrhUsername")) {
+        ossrhUsername="xxx"
+    }
+
+    if (!project.hasProperty("ossrhPassword")) {
+        ossrhPassword="xxx"
+    }
+}
 sourceSets {
     main {
         java {
