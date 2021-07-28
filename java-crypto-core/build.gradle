@@ -21,6 +21,16 @@ repositories {
 group = 'com.webank'
 version = '1.0.0'
 
+ext {
+    if (!project.hasProperty("ossrhUsername")) {
+        ossrhUsername="xxx"
+    }
+
+    if (!project.hasProperty("ossrhPassword")) {
+        ossrhPassword="xxx"
+    }
+}
+
 dependencies {
     compile('org.projectlombok:lombok:1.18.6')
     annotationProcessor('org.projectlombok:lombok:1.18.6')
