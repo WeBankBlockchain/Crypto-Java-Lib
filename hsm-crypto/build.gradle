@@ -1,0 +1,147 @@
+plugins {
+    id 'java'
+    id 'maven'
+    id 'signing'
+    id 'com.github.sherter.google-java-format' version '0.8'
+    id 'org.ajoberstar.grgit' version '4.1.0'
+}
+
+group 'com.webank'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    maven { url "https://oss.sonatype.org/service/local/staging/deploy/maven2"}
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven {url "https://plugins.gradle.org/m2/"}
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+sourceSets{
+    main {
+        java {
+            'src/main/java'
+            'src/main/test'
+        }
+        resources{
+            'src/main/resources'
+        }
+    }
+}
+
+jar{
+    //destinationDir file("dist/apps")
+    archiveName project.name + "-" + version + ".jar"
+
+    exclude "**/*.xml"
+    exclude "**/*.properties"
+    manifest {
+        try {
+            def repo = grgit.open(currentDir: project.rootDir)
+            if (repo != null) {
+                def date = new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                def branch = repo.branch.getCurrent().getName()
+                def commit = repo.head().getAbbreviatedId(40)
+
+                attributes(["Implementation-Timestamp": date,
+                            "Git-Branch"              : branch,
+                            "Git-Commit"              : commit
+                ])
+
+                logger.info("  Commit : ")
+                logger.info("  => date: {}", date)
+                logger.info("  => branch: {}", branch)
+                logger.info("  => commit: {}", commit)
+            }
+        } catch (Exception e) {
+            logger.warn(' .git not exist, cannot found commit info, e: {}', e)
+        }
+    } from sourceSets.main.output
+    doLast {
+        copy {
+            from file("src/test/resources/")
+            into "dist/conf"
+        }
+        copy {
+            from configurations.runtime
+            into "dist/lib"
+        }
+        copy {
+            from file("build/libs/")
+            into "dist/apps"
+        }
+    }
+}
+
+/*signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name project.name
+                packaging 'jar'
+                description 'WeBank java crypto core'
+                url 'https://github.com/WeBankBlockchain/sdf-crypto'
+
+                scm {
+                    url 'https://github.com/WeBankBlockchain/sdf-crypto.git'
+                    connection 'https://github.com/WeBankBlockchain/sdf-crypto.git'
+                }
+
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'maggiewu'
+                        name 'maggie'
+                        email 'maggiewu@webank.com'
+                    }
+                }
+            }
+        }
+    }
+}*/
+
+googleJavaFormat {
+    options style: 'AOSP'
+    source = sourceSets*.allJava
+    include '**/*.java'
+}
+javadoc {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
