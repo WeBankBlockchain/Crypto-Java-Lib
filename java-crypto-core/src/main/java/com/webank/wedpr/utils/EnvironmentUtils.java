@@ -19,7 +19,13 @@ public class EnvironmentUtils {
             }
             return ".so";
         }
-        if (osName.contains("mac")) return ".dylib";
+        if (osName.contains("mac")) {
+            String osArch = System.getProperty("os.arch").toLowerCase();
+            if ("aarch64".equals(osArch)) {
+                return "_arm.dylib";
+            }
+            return ".dylib";
+        }
         throw new IllegalArgumentException("does not support os :" + osName);
     }
 

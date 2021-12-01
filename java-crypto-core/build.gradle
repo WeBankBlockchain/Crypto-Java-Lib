@@ -19,7 +19,7 @@ repositories {
     mavenCentral()
 }
 group = 'com.webank'
-version = '1.0.0'
+version = '1.0.1-SNAPSHOT'
 
 ext {
     if (!project.hasProperty("ossrhUsername")) {
@@ -126,57 +126,99 @@ googleJavaFormat {
     include '**/*.java'
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//
+//            artifactId project.name
+//            groupId project.group
+//            version project.version
+//
+//            from components.java
+//            artifact sourcesJar
+//            artifact javadocJar
+//            pom {
+//                name = 'webank-blockchain-java-crypto'
+//                description = 'webank blockchain java crypto library'
+//                url = 'https://github.com/WeBankBlockchain/Crypto-Java-Lib'
+//
+//                licenses {
+//                    license {
+//                        name = 'The Apache License, Version 2.0'
+//                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id = 'zhangsan'
+//                        name = 'zhangsan'
+//                        email = 'zhangsan@example.com'
+//                    }
+//                }
+//                scm {
+//                    connection = 'https://github.com/WeBankBlockchain/Crypto-Java-Lib.git'
+//                    url = 'https://github.com/WeBankBlockchain/Crypto-Java-Lib.git'
+//                }
+//            }
+//        }
+//    }
+//    repositories {
+//        maven {
+//            def releasesRepoURL = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+//            def snapshotsRepoURL = "https://oss.sonatype.org/content/repositories/snapshots"
+//            url = !version.endsWith("SNAPSHOT") ? releasesRepoURL : snapshotsRepoURL
+//
+//            credentials {
+//                username ossrhUsername
+//                password ossrhPassword
+//            }
+//        }
+//    }
+//
+//    signing {
+//        sign publishing.publications.mavenJava
+//    }
+//}
+//
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            artifactId project.name
-            groupId project.group
-            version project.version
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
 
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-            pom {
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
                 name = 'webank-blockchain-java-crypto'
+                packaging 'pom'
                 description = 'webank blockchain java crypto library'
                 url = 'https://github.com/WeBankBlockchain/Crypto-Java-Lib'
+                scm {
+                    url 'https://github.com/WeBankBlockchain/Crypto-Java-Lib.git'
+                    connection 'https://github.com/WeBankBlockchain/Crypto-Java-Lib.git'
+                }
+
 
                 licenses {
                     license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                     }
                 }
                 developers {
                     developer {
-                        id = 'zhangsan'
-                        name = 'zhangsan'
-                        email = 'zhangsan@example.com'
+                        id 'aaron'
+                        name 'aaron'
+                        email 'aaronchu@webank.com'
                     }
                 }
-                scm {
-                    connection = 'https://github.com/WeBankBlockchain/Crypto-Java-Lib.git'
-                    url = 'https://github.com/WeBankBlockchain/Crypto-Java-Lib.git'
-                }
             }
         }
-    }
-    repositories {
-        maven {
-            def releasesRepoURL = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-            def snapshotsRepoURL = "https://oss.sonatype.org/content/repositories/snapshots"
-            url = !version.endsWith("SNAPSHOT") ? releasesRepoURL : snapshotsRepoURL
-
-            credentials {
-                username ossrhUsername
-                password ossrhPassword
-            }
-        }
-    }
-
-    signing {
-        sign publishing.publications.mavenJava
     }
 }
 
