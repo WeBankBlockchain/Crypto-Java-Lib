@@ -7,10 +7,10 @@ Crypto-Java-Lib收集了多个Java子密码库，包括
 - **Rust源码**: https://github.com/WeBankBlockchain/WeDPR-Lab-Crypto
 
 - 分支:
-wedpr-tools
+main
 
 - commitID:
-5a2a2b4bbeb30a79e4ab225186687ea2ef7287dc
+  4b7130a18ff7379728ff5926065f0d207e434106
 
 - 编译:
   * libffi_java_sdk
