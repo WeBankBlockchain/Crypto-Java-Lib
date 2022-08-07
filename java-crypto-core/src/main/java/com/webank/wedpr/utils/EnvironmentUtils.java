@@ -1,8 +1,6 @@
 package com.webank.wedpr.crypto.utils;
 
-/**
- * @author aaronchu @Description
- */
+/** @author aaronchu @Description */
 public class EnvironmentUtils {
 
     public static String getResourceTailByOs(String osName) {

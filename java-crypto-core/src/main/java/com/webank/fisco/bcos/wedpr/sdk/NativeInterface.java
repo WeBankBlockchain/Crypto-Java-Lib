@@ -1,7 +1,7 @@
 package com.webank.fisco.bcos.wedpr.sdk;
 
-import com.webank.wedpr.utils.EnvironmentUtils;
-import com.webank.wedpr.utils.NativeUtils;
+import com.webank.wedpr.crypto.utils.EnvironmentUtils;
+import com.webank.wedpr.crypto.utils.NativeUtils;
 import java.io.IOException;
 
 public class NativeInterface {

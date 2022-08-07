@@ -1,7 +1,7 @@
 package com.webank.wedpr.crypto;
 
-import com.webank.wedpr.utils.EnvironmentUtils;
-import com.webank.wedpr.utils.NativeUtils;
+import com.webank.wedpr.crypto.utils.EnvironmentUtils;
+import com.webank.wedpr.crypto.utils.NativeUtils;
 import java.io.IOException;
 
 /**
@@ -56,20 +56,6 @@ public class NativeInterface {
     public static native CryptoResult sm2Verify(String pubKey, String message, String signature);
 
     public static native CryptoResult sm2ComputeHashE(String pubKey, String sm2ComputeE);
-
-    public static native CryptoResult curve25519VrfProveUtf8(String privateKey, String utf8Message);
-
-    public static native CryptoResult curve25519VrfProveFastUtf8(
-            String privateKey, String publicKey, String utf8Message);
-
-    public static native CryptoResult curve25519VrfVerifyUtf8(
-            String publicKey, String utf8Message, String proof);
-
-    public static native CryptoResult curve25519VrfDerivePublicKey(String privateKey);
-
-    public static native CryptoResult curve25519VrfProofToHash(String proof);
-
-    public static native CryptoResult curve25519VrfIsValidPublicKey(String publicKey);
 
     private static String resolveLibTail(String os) {
         os = os.toLowerCase();
