@@ -26,10 +26,6 @@ public class NativeInterface {
         }
     }
 
-    public static native CryptoResult secp256k1EciesEncrypt(String pubKey, String plaintext);
-
-    public static native CryptoResult secp256k1EciesDecrypt(String priKey, String ciphertext);
-
     public static native CryptoResult secp256k1GenKeyPair();
 
     public static native CryptoResult secp256k1DerivePublicKey(String priKey);
