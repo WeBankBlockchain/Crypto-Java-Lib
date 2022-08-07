@@ -1,0 +1,4 @@
+rootProject.name = 'webank-blockchain-java-crypto-binary'
+
+include "crypto-utils"
+include "crypto-vrf"
