@@ -19,7 +19,7 @@ repositories {
     mavenCentral()
 }
 group = 'com.webank'
-version = '1.0.3-SNAPSHOT'
+version = '1.0.3'
 
 ext {
     if (!project.hasProperty("ossrhUsername")) {
